@@ -1,50 +1,116 @@
 #include "monty.h"
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
 
-typedef struct error {
-    int code;
-    char *message;
-    int needs_var;
-} error_t;
+/**
+ * err - Prints appropiate error messages determined by their error code.
+ * @error_code: The error codes are the following:
+ * (1) => The user does not give any file or more than one file to the program.
+ * (2) => The file provided is not a file that can be opened or read.
+ * (3) => The file provided contains an invalid instruction.
+ * (4) => When the program is unable to malloc more memory.
+ * (5) => When the parameter passed to the instruction "push" is not an int.
+ * (6) => When the stack it empty for pint.
+ * (7) => When the stack it empty for pop.
+ * (8) => When stack is too short for operation.
+ */
+void err(int error_code, ...)
+{
+	va_list ag;
+	char *op;
+	int l_num;
 
-const error_t errors[] = {
-    {1, "USAGE: monty file\n", 0},
-    {2, "Error: Can't open file %s\n", 1},
-    {3, "L%d: unknown instruction %s\n", 2},
-    {4, "Error: malloc failed\n", 0},
-    {5, "L%d: usage: push integer\n", 1},
-    {6, "L%d: can't pint, stack empty\n", 1},
-    {7, "L%d: can't pop an empty stack\n", 1},
-    {8, "L%d: can't %s, stack too short\n", 2},
-    {9, "L%d: division by zero\n", 1},
-    {10, "L%d: can't pchar, value out of range\n", 1},
-    {11, "L%d: can't pchar, stack empty\n", 1},
-    {0, NULL, 0} // Terminator
-};
+	va_start(ag, error_code);
+	switch (error_code)
+	{
+		case 1:
+			fprintf(stderr, "USAGE: monty file\n");
+			break;
+		case 2:
+			fprintf(stderr, "Error: Can't open file %s\n",
+				va_arg(ag, char *));
+			break;
+		case 3:
+			l_num = va_arg(ag, int);
+			op = va_arg(ag, char *);
+			fprintf(stderr, "L%d: unknown instruction %s\n", l_num, op);
+			break;
+		case 4:
+			fprintf(stderr, "Error: malloc failed\n");
+			break;
+		case 5:
+			fprintf(stderr, "L%d: usage: push integer\n", va_arg(ag, int));
+			break;
+		default:
+			break;
+	}
+	free_nodes();
+	exit(EXIT_FAILURE);
+}
 
-void handle_error(int error_code, ...) {
-    va_list args;
-    va_start(args, error_code);
+/**
+ * more_err - handles errors.
+ * @error_code: The error codes are the following:
+ * (6) => When the stack it empty for pint.
+ * (7) => When the stack it empty for pop.
+ * (8) => When stack is too short for operation.
+ * (9) => Division by zero.
+ */
+void more_err(int error_code, ...)
+{
+	va_list ag;
+	char *op;
+	int l_num;
 
-    for (int i = 0; errors[i].message != NULL; i++) {
-        if (errors[i].code == error_code) {
-            if (errors[i].needs_var == 1) {
-                int line_number = va_arg(args, int);
-                fprintf(stderr, errors[i].message, line_number);
-            } else if (errors[i].needs_var == 2) {
-                int line_number = va_arg(args, int);
-                char *op = va_arg(args, char *);
-                fprintf(stderr, errors[i].message, line_number, op);
-            } else {
-                fprintf(stderr, "%s", errors[i].message);
-            }
-            break;
-        }
-    }
+	va_start(ag, error_code);
+	switch (error_code)
+	{
+		case 6:
+			fprintf(stderr, "L%d: can't pint, stack empty\n",
+				va_arg(ag, int));
+			break;
+		case 7:
+			fprintf(stderr, "L%d: can't pop an empty stack\n",
+				va_arg(ag, int));
+			break;
+		case 8:
+			l_num = va_arg(ag, unsigned int);
+			op = va_arg(ag, char *);
+			fprintf(stderr, "L%d: can't %s, stack too short\n", l_num, op);
+			break;
+		case 9:
+			fprintf(stderr, "L%d: division by zero\n",
+				va_arg(ag, unsigned int));
+			break;
+		default:
+			break;
+	}
+	free_nodes();
+	exit(EXIT_FAILURE);
+}
 
-    va_end(args);
-    free_nodes();
-    exit(EXIT_FAILURE);
+/**
+ * string_err - handles errors.
+ * @error_code: The error codes are the following:
+ * (10) ~> The number inside a node is outside ASCII bounds.
+ * (11) ~> The stack is empty.
+ */
+void string_err(int error_code, ...)
+{
+	va_list ag;
+	int l_num;
+
+	va_start(ag, error_code);
+	l_num = va_arg(ag, int);
+	switch (error_code)
+	{
+		case 10:
+			fprintf(stderr, "L%d: can't pchar, value out of range\n", l_num);
+			break;
+		case 11:
+			fprintf(stderr, "L%d: can't pchar, stack empty\n", l_num);
+			break;
+		default:
+			break;
+	}
+	free_nodes();
+	exit(EXIT_FAILURE);
 }
