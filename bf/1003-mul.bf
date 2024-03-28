@@ -13,7 +13,7 @@ multiply two integers
  >[<+>-]
  <<-
 ]
-separate two digits inputed
+separate the two input digits
 >[-]>+> >+++++ +++++<
 [
  - >- [>>>]+++++ +++++<<+
@@ -28,6 +28,6 @@ convert itoa
  [+++++ +++>]
  <[<]>-
 ]
-print with newline
+print with an included newline
 >>[.<<]<[<<]>>.
 >>,. 
