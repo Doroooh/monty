@@ -1,51 +1,65 @@
+#ifndef MONTY_H
+#define MONTY_H
+
+#include <stdio.h>
+#include <stdlib.h>
+
+/**
+ * struct stack_s - doubly linked list representation of a stack (or queue)
+ * @n: integer
+ * @prev: points to the previous element of the stack (or queue)
+ * @next: points to the next element of the stack (or queue)
+ *
+ * Description: doubly linked list node structure
+ * for stack, queues, LIFO, FIFO
+ */
+typedef struct stack_s
+{
+    int n;
+    struct stack_s *prev;
+    struct stack_s *next;
+} stack_t;
+
+void f_push(stack_t **stack, unsigned int line_number);
+void f_pall(stack_t **stack, unsigned int line_number);
+
+#endif /* MONTY_H */
+
 #include "monty.h"
 
-/**
- * is_valid_number - checks if a string is a valid integer
- * @str: string to check
- *
- * Return: 1 if string is a valid integer, 0 otherwise
- */
-static int is_valid_number(char *str)
+void f_push(stack_t **stack, unsigned int line_number)
 {
-    if (*str == '-' || *str == '+') {
-        str++;
-    }
+    stack_t *new_node;
 
-    if (!*str) {
-        return 0; // String is only a sign
-    }
-
-    while (*str) {
-        if (*str < '0' || *str > '9') {
-            return 0; // Non-digit character found
-        }
-        str++;
-    }
-
-    return 1;
-}
-
-/**
- * f_push - Adds a node to the stack or queue.
- * @head: double pointer to the top of the stack
- * @counter: line number in the file
- */
-void f_push(stack_t **head, unsigned int counter)
-{
-    if (!bus.arg || !is_valid_number(bus.arg)) {
-        fprintf(stderr, "L%d: usage: push integer\n", counter);
-        fclose(bus.file);
-        free(bus.content);
-        free_stack(*head);
+    if (!stack) {
+        fprintf(stderr, "L%d: Stack not initialized\n", line_number);
         exit(EXIT_FAILURE);
     }
 
-    int num = atoi(bus.arg);
+    new_node = malloc(sizeof(stack_t));
+    if (!new_node) {
+        fprintf(stderr, "Error: malloc failed\n");
+        exit(EXIT_FAILURE);
+    }
 
-    if (bus.lifi == 0) {
-        addnode(head, num);
-    } else {
-        addqueue(head, num);
+    new_node->n = atoi(bus.arg); // Assuming bus.arg is your integer argument as a string
+    new_node->prev = NULL;
+    new_node->next = *stack;
+
+    if (*stack != NULL) {
+        (*stack)->prev = new_node;
+    }
+
+    *stack = new_node;
+}
+
+void f_pall(stack_t **stack, unsigned int line_number)
+{
+    stack_t *current = *stack;
+    (void)line_number; // Unused parameter
+
+    while (current != NULL) {
+        printf("%d\n", current->n);
+        current = current->next;
     }
 }
