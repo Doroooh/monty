@@ -1,65 +1,38 @@
-#ifndef MONTY_H
-#define MONTY_H
-
-#include <stdio.h>
-#include <stdlib.h>
-
-/**
- * struct stack_s - doubly linked list representation of a stack (or queue)
- * @n: integer
- * @prev: points to the previous element of the stack (or queue)
- * @next: points to the next element of the stack (or queue)
- *
- * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO
- */
-typedef struct stack_s
-{
-    int n;
-    struct stack_s *prev;
-    struct stack_s *next;
-} stack_t;
-
-void f_push(stack_t **stack, unsigned int line_number);
-void f_pall(stack_t **stack, unsigned int line_number);
-
-#endif /* MONTY_H */
-
 #include "monty.h"
 
-void f_push(stack_t **stack, unsigned int line_number)
+/**
+ * f_push - add node to the stack
+ * @head: stack head
+ * @counter: line_number
+ * Return: no return
+ */
+void f_push(stack_t **head, unsigned int counter)
 {
-    stack_t *new_node;
+	int n, j = 0, flag = 0;
 
-    if (!stack) {
-        fprintf(stderr, "L%d: Stack not initialized\n", line_number);
-        exit(EXIT_FAILURE);
-    }
-
-    new_node = malloc(sizeof(stack_t));
-    if (!new_node) {
-        fprintf(stderr, "Error: malloc failed\n");
-        exit(EXIT_FAILURE);
-    }
-
-    new_node->n = atoi(bus.arg); // Assuming bus.arg is your integer argument as a string
-    new_node->prev = NULL;
-    new_node->next = *stack;
-
-    if (*stack != NULL) {
-        (*stack)->prev = new_node;
-    }
-
-    *stack = new_node;
-}
-
-void f_pall(stack_t **stack, unsigned int line_number)
-{
-    stack_t *current = *stack;
-    (void)line_number; // Unused parameter
-
-    while (current != NULL) {
-        printf("%d\n", current->n);
-        current = current->next;
-    }
+	if (bus.arg)
+	{
+		if (bus.arg[0] == '-')
+			j++;
+		for (; bus.arg[j] != '\0'; j++)
+		{
+			if (bus.arg[j] > 57 || bus.arg[j] < 48)
+				flag = 1; }
+		if (flag == 1)
+		{ fprintf(stderr, "L%d: usage: push integer\n", counter);
+			fclose(bus.file);
+			free(bus.content);
+			free_stack(*head);
+			exit(EXIT_FAILURE); }}
+	else
+	{ fprintf(stderr, "L%d: usage: push integer\n", counter);
+		fclose(bus.file);
+		free(bus.content);
+		free_stack(*head);
+		exit(EXIT_FAILURE); }
+	n = atoi(bus.arg);
+	if (bus.lifi == 0)
+		addnode(head, n);
+	else
+		addqueue(head, n);
 }
