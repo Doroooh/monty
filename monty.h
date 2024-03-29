@@ -10,17 +10,17 @@
 #include <stdarg.h>
 
 /**
- * struct stack_s - A doubly linked list as a queue or stack representation
- * @k: integer
- * @prev: this will point to the previous element in my stack or queue
- * @next: this is the pointer to the next element of my queue or stack 
+ * struct stack_s - doubly linked list representation of a stack (or queue)
+ * @n: integer
+ * @prev: points to the previous element of the stack (or queue)
+ * @next: points to the next element of the stack (or queue)
  *
- * Description: This is a doubly linked list node structure for stack, queues, LIFO, FIFO
+ * Description: doubly linked list node structure
+ * for stack, queues, LIFO, FIFO
  */
-
 typedef struct stack_s
 {
-        int k;
+        int n;
         struct stack_s *prev;
         struct stack_s *next;
 } stack_t;
@@ -30,7 +30,7 @@ typedef struct stack_s
  * @opcode: the opcode
  * @f: function to handle the opcode
  *
- * Description: the opcode and the function
+ * Description: opcode and its function
  * for stack, queues, LIFO, FIFO
  */
 typedef struct instruction_s
@@ -50,7 +50,7 @@ int len_chars(FILE *);
 void find_func(char *, char *, int, int);
 
 /*Stack operations*/
-stack_t *create_node(int k);
+stack_t *create_node(int n);
 void free_nodes(void);
 void print_stack(stack_t **, unsigned int);
 void add_to_stack(stack_t **, unsigned int);
@@ -75,7 +75,7 @@ void print_char(stack_t **, unsigned int);
 void print_str(stack_t **, unsigned int);
 void rotl(stack_t **, unsigned int);
 
-/*Error handling*/
+/*Error hanlding*/
 void err(int error_code, ...);
 void more_err(int error_code, ...);
 void string_err(int error_code, ...);
