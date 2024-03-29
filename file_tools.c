@@ -8,7 +8,7 @@
 
 void open_file(char *file_name)
 {
-	FILE *fd = fopen(file_name, "q");
+	FILE *fd = fopen(file_name, "r");
 
 	if (file_name == NULL || fd == NULL)
 		err(2, file_name);
@@ -19,7 +19,7 @@ void open_file(char *file_name)
 
 
 /**
- * read_file - reading files
+ * read_file - reads a file
  * @fd: pointer to file descriptor
  * Return: void
  */
@@ -39,7 +39,8 @@ void read_file(FILE *fd)
 
 
 /**
- * parse_line - Separating every line into tokens to determine the function to call
+ * parse_line - Separates each line into tokens to determine
+ * which function to call
  * @buffer: line from the file
  * @line_number: line number
  * @format:  storage format. If 0 Nodes will be entered as a stack.
@@ -70,7 +71,7 @@ int parse_line(char *buffer, int line_number, int format)
 }
 
 /**
- * find_func - finding appropriate function for opcode
+ * find_func - find the appropriate function for the opcode
  * @opcode: opcode
  * @value: argument of opcode
  * @format:  storage format. If 0 Nodes will be entered as a stack.
@@ -80,7 +81,7 @@ int parse_line(char *buffer, int line_number, int format)
  */
 void find_func(char *opcode, char *value, int ln, int format)
 {
-	int k;
+	int i;
 	int flag;
 
 	instruction_t func_list[] = {
@@ -105,11 +106,11 @@ void find_func(char *opcode, char *value, int ln, int format)
 	if (opcode[0] == '#')
 		return;
 
-	for (flag = 1, k = 0; func_list[k].opcode != NULL; k++)
+	for (flag = 1, i = 0; func_list[i].opcode != NULL; i++)
 	{
-		if (strcmp(opcode, func_list[k].opcode) == 0)
+		if (strcmp(opcode, func_list[i].opcode) == 0)
 		{
-			call_fun(func_list[k].f, opcode, value, ln, format);
+			call_fun(func_list[i].f, opcode, value, ln, format);
 			flag = 0;
 		}
 	}
@@ -119,7 +120,7 @@ void find_func(char *opcode, char *value, int ln, int format)
 
 
 /**
- * call_fun - Calling required function.
+ * call_fun - Calls the required function.
  * @func: Pointer to the function that is about to be called.
  * @op: string representing the opcode.
  * @val: string representing a numeric value.
@@ -131,7 +132,7 @@ void call_fun(op_func func, char *op, char *val, int ln, int format)
 {
 	stack_t *node;
 	int flag;
-	int k;
+	int i;
 
 	flag = 1;
 	if (strcmp(op, "push") == 0)
@@ -143,7 +144,7 @@ void call_fun(op_func func, char *op, char *val, int ln, int format)
 		}
 		if (val == NULL)
 			err(5, ln);
-		for (k = 0; val[k] != '\0'; k++)
+		for (i = 0; val[i] != '\0'; i++)
 		{
 			if (isdigit(val[i]) == 0)
 				err(5, ln);
