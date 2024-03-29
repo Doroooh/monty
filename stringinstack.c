@@ -2,8 +2,8 @@
 
 /**
  * print_char - Prints the Ascii value.
- * @stack: Pointer to a pointer pointing to top node of the stack.
- * @line_number: Interger representing the line number of of the opcode.
+ * @stack: Pointer to a pointer pointing to the top node of the stack.
+ * @line_number: Integer representing the line number of the opcode.
  */
 void print_char(stack_t **stack, unsigned int line_number)
 {
@@ -12,7 +12,7 @@ void print_char(stack_t **stack, unsigned int line_number)
 	if (stack == NULL || *stack == NULL)
 		string_err(11, line_number);
 
-	ascii = (*stack)->n;
+	ascii = (*stack)->f;
 	if (ascii < 0 || ascii > 127)
 		string_err(10, line_number);
 	printf("%c\n", ascii);
@@ -20,8 +20,8 @@ void print_char(stack_t **stack, unsigned int line_number)
 
 /**
  * print_str - Prints a string.
- * @stack: Pointer to a pointer pointing to top node of the stack.
- * @ln: Interger representing the line number of of the opcode.
+ * @stack: Pointer to a pointer pointing to the top node of the stack.
+ * @ln: Integer representing the line number of the opcode.
  */
 void print_str(stack_t **stack, __attribute__((unused))unsigned int ln)
 {
@@ -37,7 +37,7 @@ void print_str(stack_t **stack, __attribute__((unused))unsigned int ln)
 	tmp = *stack;
 	while (tmp != NULL)
 	{
-		ascii = tmp->n;
+		ascii = tmp->f;
 		if (ascii <= 0 || ascii > 127)
 			break;
 		printf("%c", ascii);
@@ -48,8 +48,8 @@ void print_str(stack_t **stack, __attribute__((unused))unsigned int ln)
 
 /**
  * rotl - Rotates the first node of the stack to the bottom.
- * @stack: Pointer to a pointer pointing to top node of the stack.
- * @ln: Interger representing the line number of of the opcode.
+ * @stack: Pointer to a pointer pointing to the top node of the stack.
+ * @ln: Integer representing the line number of the opcode.
  */
 void rotl(stack_t **stack, __attribute__((unused))unsigned int ln)
 {
@@ -72,8 +72,8 @@ void rotl(stack_t **stack, __attribute__((unused))unsigned int ln)
 
 /**
  * rotr - Rotates the last node of the stack to the top.
- * @stack: Pointer to a pointer pointing to top node of the stack.
- * @ln: Interger representing the line number of of the opcode.
+ * @stack: Pointer to a pointer pointing to the top node of the stack.
+ * @ln: Integer representing the line number of the opcode.
  */
 void rotr(stack_t **stack, __attribute__((unused))unsigned int ln)
 {
