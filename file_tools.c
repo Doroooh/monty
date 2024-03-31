@@ -1,8 +1,8 @@
 #include "monty.h"
 
 /**
- * open_file - opens a file
- * @file_name: the file namepath
+ * open_file - opening a file
+ * @file_name: this is the file namepath
  * Return: void
  */
 
@@ -19,7 +19,7 @@ void open_file(char *file_name)
 
 
 /**
- * read_file - reads a file
+ * read_file - reading a file
  * @fd: pointer to file descriptor
  * Return: void
  */
@@ -39,11 +39,11 @@ void read_file(FILE *fd)
 
 
 /**
- * parse_line - Separates each line into tokens to determine
- * which function to call
- * @buffer: line from the file
- * @line_number: line number
- * @format:  storage format. If 0 Nodes will be entered as a stack.
+ * parse_line - Separating every line into tokens to determine
+ * the function to be called
+ * @buffer: this is a line from the file
+ * @line_number: this is the line number
+ * @format:  this is the storage format. If 0 Nodes will be entered as a stack.
  * if 1 nodes will be entered as a queue.
  * Return: Returns 0 if the opcode is stack. 1 if queue.
  */
@@ -71,7 +71,7 @@ int parse_line(char *buffer, int line_number, int format)
 }
 
 /**
- * find_func - find the appropriate function for the opcode
+ * find_func - finding or obatining the appropriate function for  opcode
  * @opcode: opcode
  * @value: argument of opcode
  * @format:  storage format. If 0 Nodes will be entered as a stack.
@@ -120,12 +120,12 @@ void find_func(char *opcode, char *value, int ln, int format)
 
 
 /**
- * call_fun - Calls the required function.
- * @func: Pointer to the function that is about to be called.
- * @op: string representing the opcode.
- * @val: string representing a numeric value.
- * @ln: line numeber for the instruction.
- * @format: Format specifier. If 0 Nodes will be entered as a stack.
+ * call_fun - this will call required function.
+ * @func: this is the pointer to the function to be  called.
+ * @op: this is the string representing opcode.
+ * @val: the string representing numeric value.
+ * @ln: this is the  line number for instruction.
+ * @format: this is the Format specifier. If 0 Nodes will be entered as a stack.
  * if 1 nodes will be entered as a queue.
  */
 void call_fun(op_func func, char *op, char *val, int ln, int format)
